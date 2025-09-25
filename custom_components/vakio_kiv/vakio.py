@@ -162,6 +162,7 @@ class Coordinator(DataUpdateCoordinator):
         self.last_update = None
         self.condition = {
             GATE_ENDPOINT: None,
+            STATE_ENDPOINT: None,
         }
         self.is_logged_in = False
 
