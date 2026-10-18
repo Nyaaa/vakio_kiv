@@ -22,12 +22,13 @@ class VakioKivConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             if not valid_subscribe_topic(prefix):
                 errors["base"] = "invalid_prefix"
             else:
-                existing_entries = self._async_current_entries()
-                for entry in existing_entries:
+                await self.async_set_unique_id(prefix)
+                self._abort_if_unique_id_configured()
+                for entry in self._async_current_entries():
                     if entry.data.get(CONF_PREFIX) == prefix:
                         return self.async_abort(reason="already_configured")
 
-                return self.async_create_entry(title="Vakio Kiv", data=user_input)
+                return self.async_create_entry(title=f"Vakio Kiv ({prefix})", data=user_input)
 
         return self.async_show_form(
             step_id="user",

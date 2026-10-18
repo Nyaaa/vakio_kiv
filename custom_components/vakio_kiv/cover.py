@@ -29,7 +29,7 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up Vakio Kiv cover from a config entry."""
-    config = hass.data[DOMAIN][config_entry.entry_id]
+    config = hass.data[DOMAIN].get(config_entry.entry_id, {})
     if not config:
         config = config_entry.data
 
@@ -49,6 +49,7 @@ async def async_setup_entry(
 class VakioVentCover(CoverEntity, RestoreEntity):
     """Representation of a Vakio Kiv vent cover with 4 positions."""
 
+    _attr_has_entity_name = True
     _attr_supported_features = (
         CoverEntityFeature.SET_POSITION
         | CoverEntityFeature.OPEN
